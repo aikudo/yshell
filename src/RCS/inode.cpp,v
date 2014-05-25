@@ -1,0 +1,221 @@
+head	1.1;
+access;
+symbols;
+locks;
+comment	@// @;
+
+
+1.1
+date	2014.05.25.19.19.49;	author -;	state -;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@-
+@
+text
+@// $Id: inode.cpp,v 1.1 2014-05-25 12:06:01-07 - - $
+
+#include <algorithm>
+#include <string>
+#include <cassert>
+#include <iostream>
+
+using namespace std;
+
+#include "debug.h"
+#include "inode.h"
+
+#define LINE "[" << __LINE__ << "] "
+#define IDENT(name) \
+        cout << LINE << reinterpret_cast<const void*> (this) \
+             << "->" << name << endl; //": value=" << value << endl; 
+#define SHOW(STMT) \
+        cout << LINE << "SHOW(" << #STMT << "):" << endl; \
+        STMT; \
+        cout << endl;
+
+int inode::next_inode_nr {1};
+
+inode::inode(inode_t init_type):
+   inode_nr (next_inode_nr++), type (init_type)
+{
+   switch (type) {
+      case DIR_INODE:
+           contents.dirents = new directory();
+           break;
+      case FILE_INODE:
+           contents.data = new wordvec();
+           break;
+   }
+   DEBUGF ('i', "inode " << inode_nr << ", type = " << type);
+}
+
+//
+// copy ctor -
+//    Make a copy of a given inode.  This should not be used in
+//    your program if you can avoid it, since it is expensive.
+//    Here, we can leverage operator=.
+//
+inode::inode (const inode& that) {
+   *this = that;
+}
+
+//
+// operator= -
+//    Assignment operator.  Copy an inode.  Make a copy of a
+//    given inode.  This should not be used in your program if
+//    you can avoid it, since it is expensive.
+//
+inode& inode::operator= (const inode& that) {
+   if (this != &that) {
+      inode_nr = that.inode_nr;
+      type = that.type;
+      contents = that.contents;
+   }
+   DEBUGF ('i', "inode " << inode_nr << ", type = " << type);
+   return *this;
+}
+
+inode::~inode(){
+   IDENT ("inode::~inode()");
+}
+
+
+int inode::get_inode_nr() const {
+   DEBUGF ('i', "inode = " << inode_nr);
+   return inode_nr;
+}
+
+int inode::size() const {
+   int size {0};
+   if (type == DIR_INODE){
+      size = contents.dirents->size();
+   }else {
+      //vector<string> *a = contents.data;
+      for ( auto i : *(contents.data)) size += i.length();
+      size += contents.data->size() - 1;  //only if count spaces
+   }
+   DEBUGF ('i', "size = " << size);
+   return size;
+}
+
+const wordvec& inode::readfile() const {
+   DEBUGF ('i', *contents.data);
+   if (type == DIR_INODE) throw yshell_exn ("inode::readfile: DIR");
+   assert (type == FILE_INODE); //TODO: Throw yshell_exn
+   return *contents.data;
+}
+
+void inode::writefile (const wordvec& words) {
+   DEBUGF ('i', words);
+   if (type == DIR_INODE) throw yshell_exn ("inode::writefile: DIR");
+   assert (type == FILE_INODE); //TODO: Throw yshell_exn
+   contents.data->assign(words.begin()+2,words.end());
+}
+
+const inode& inode::getfile (const string& filename) {
+   DEBUGF ('i', filename);
+   assert (type == DIR_INODE); 
+   //directory::iterator i = contents.dirents->find(filename);
+   auto i = contents.dirents->find(filename);
+   if (i == contents.dirents->end()){
+      throw yshell_exn ("file not found: " + filename);
+   }
+   return *(i->second);
+}
+
+void inode::remove (const string& filename) {
+   DEBUGF ('i', filename);
+   assert (type == DIR_INODE);
+}
+
+string inode::dir (const inode *inode) const{
+   string key = "$$$$";
+      //reverse map kbblookup for inode use linear search
+   for( auto i = contents.dirents->begin();
+         i != contents.dirents->end();
+         ++i){
+      if( i->second == inode ){
+         key = i->first;
+         break;
+      }
+   }
+   return key;
+}
+
+inode* inode::dir (const string& dirname) {
+   assert (type == DIR_INODE); //make sure this a directory
+   DEBUGF ('i', dirname);
+   auto i  = contents.dirents->find(dirname);
+   if( i == contents.dirents->end() ){
+      throw yshell_exn ( "directory not found: " + dirname);
+   } else if( i->second->type == FILE_INODE) {
+      throw yshell_exn ( dirname + " is a file");
+   } //else 
+   return i->second ;
+}
+
+inode& inode::mkdir (const string& dirname) {
+   DEBUGF ('i', dirname);
+   assert (type == DIR_INODE); //make sure this a directory
+   inode* newdir= new inode (DIR_INODE);//l= new inode (DIR_INODE);
+   newdir->contents.dirents->insert( { "..", this} );
+   newdir->contents.dirents->insert( { ".", newdir} ); //itself
+   contents.dirents->insert({ dirname, newdir});
+   return *newdir;
+}
+
+//return a newfile inode
+inode& inode::mkfile (const string& filename) {
+   DEBUGF ('i', filename);
+   assert (type == DIR_INODE); //make sure this is a directory
+   //inode* file = contents.dirents->find(filename);
+   inode* file_inode ;
+   if( contents.dirents->count(filename))
+      //file_inode = contents.dirents->find(filename)->second;
+      file_inode = contents.dirents->at(filename);
+   else
+      file_inode =  new inode (FILE_INODE);
+   contents.dirents->insert({ filename, file_inode});
+   return *file_inode;
+}
+/*
+const string& inode::getname(){
+   inode* dot = contents.dirents->at(".",
+   inode* dotdot = contents.dirents->(".."
+
+}
+*/
+
+inode* inode::parent(){
+   assert (type == DIR_INODE);
+   return contents.dirents->at("..");
+}
+
+inode_state::inode_state() {
+   //default constructor
+   //first create a special root node
+   //inodestr(inode::next_inode_nr, "/");
+   inode* root_ = new inode(DIR_INODE);
+   root_->contents.dirents->insert({".", root_ });
+   root_->contents.dirents->insert({"..", root_ });
+   root = root_;
+   cwd = root_;
+   DEBUGF ('i', "root = " << (void*) root << ", cwd = " << (void*) cwd
+          << ", prompt = " << prompt);
+}
+
+ostream& operator<< (ostream& out, const inode_state& state) {
+   out << "inode_state: root = " << state.root
+       << ", cwd = " << state.cwd;
+   return out;
+}
+
+@

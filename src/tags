@@ -1,0 +1,113 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ALLSOURCES	Makefile	/^ALLSOURCES  = ${CPPHEADER} ${CPPSOURCE} ${OTHERS}$/;"	m
+CLASS	Makefile	/^CLASS       = cmps109-wm.s14$/;"	m
+COMPILECPP	Makefile	/^COMPILECPP  = g++ -g -O0 -Wall -Wextra -std=gnu++0x$/;"	m
+CPPHEADER	Makefile	/^CPPHEADER   = commands.h debug.h inode.h util.h util.tcc$/;"	m
+CPPSOURCE	Makefile	/^CPPSOURCE   = commands.cpp debug.cpp inode.cpp util.cpp main.cpp$/;"	m
+DEBUGF	debug.h	46;"	d
+DEBUGF	debug.h	49;"	d
+DEBUGS	debug.h	47;"	d
+DEBUGS	debug.h	55;"	d
+DEPFILE	Makefile	/^DEPFILE     = ${MKFILE}.deps$/;"	m
+DIR_INODE	inode.h	/^enum inode_t {DIR_INODE, FILE_INODE};$/;"	e	enum:inode_t
+EXECBIN	Makefile	/^EXECBIN     = yshell$/;"	m
+FILE_INODE	inode.h	/^enum inode_t {DIR_INODE, FILE_INODE};$/;"	e	enum:inode_t
+GMAKE	Makefile	/^GMAKE       = ${MAKE} --no-print-directory$/;"	m
+IDENT	inode.cpp	14;"	d	file:
+LINE	inode.cpp	13;"	d	file:
+LISTING	Makefile	/^LISTING     = Listing.code.ps$/;"	m
+MAKEDEPCPP	Makefile	/^MAKEDEPCPP  = g++ -MM$/;"	m
+MKFILE	Makefile	/^MKFILE      = Makefile$/;"	m
+NEEDINCL	Makefile	/^NEEDINCL    = ${filter ${NOINCL}, ${MAKECMDGOALS}}$/;"	m
+NOINCL	Makefile	/^NOINCL      = ci clean spotless$/;"	m
+OBJECTS	Makefile	/^OBJECTS     = ${CPPSOURCE:.cpp=.o}$/;"	m
+OTHERS	Makefile	/^OTHERS      = ${MKFILE} $/;"	m
+PROJECT	Makefile	/^PROJECT     = asg1$/;"	m
+SHOW	inode.cpp	17;"	d	file:
+__COMMANDS_H__	commands.h	4;"	d
+__DEBUG_H__	debug.h	4;"	d
+__INODE_H__	inode.h	4;"	d
+__UTIL_H__	util.h	10;"	d
+at	commands.cpp	/^function commands::at (const string& cmd) {$/;"	f	class:commands
+commandmap	commands.h	/^typedef map<string, function> commandmap;$/;"	t
+commands	commands.cpp	/^commands::commands(): map ({$/;"	f	class:commands
+commands	commands.h	/^class commands {$/;"	c
+complain	util.cpp	/^ostream& complain() {$/;"	f
+contents	inode.h	/^      } contents;$/;"	m	class:inode	typeref:union:inode::__anon1
+data	inode.h	/^         wordvec* data;$/;"	m	union:inode::__anon1
+debugflags	debug.h	/^class debugflags {$/;"	c
+dir	inode.cpp	/^inode* inode::dir (const string& dirname) {$/;"	f	class:inode
+dir	inode.cpp	/^string inode::dir (const inode *inode) const{$/;"	f	class:inode
+directory	inode.h	/^typedef map<string, inode*> directory;$/;"	t
+dirents	inode.h	/^         directory* dirents;$/;"	m	union:inode::__anon1
+execname	util.cpp	/^string& execname() {$/;"	f
+execname_string	util.cpp	/^static string execname_string;$/;"	v	file:
+exit_status	util.h	/^class exit_status {$/;"	c
+exit_status_message	commands.cpp	/^int exit_status_message() {$/;"	f
+flags	debug.h	/^      static vector<bool> flags;$/;"	m	class:debugflags
+fn_cat	commands.cpp	/^void fn_cat (inode_state& state, const wordvec& words){$/;"	f
+fn_cd	commands.cpp	/^void fn_cd (inode_state& state, const wordvec& words){$/;"	f
+fn_echo	commands.cpp	/^void fn_echo (inode_state& state, const wordvec& words){$/;"	f
+fn_exit	commands.cpp	/^void fn_exit (inode_state& state, const wordvec& words){$/;"	f
+fn_ls	commands.cpp	/^void fn_ls (inode_state& state, const wordvec& words){$/;"	f
+fn_lsr	commands.cpp	/^void fn_lsr (inode_state& state, const wordvec& words){$/;"	f
+fn_make	commands.cpp	/^void fn_make (inode_state& state, const wordvec& words){$/;"	f
+fn_mkdir	commands.cpp	/^void fn_mkdir (inode_state& state, const wordvec& words){$/;"	f
+fn_prompt	commands.cpp	/^void fn_prompt (inode_state& state, const wordvec& words){$/;"	f
+fn_pwd	commands.cpp	/^void fn_pwd (inode_state& state, const wordvec& words){$/;"	f
+fn_rm	commands.cpp	/^void fn_rm (inode_state& state, const wordvec& words){$/;"	f
+fn_rmr	commands.cpp	/^void fn_rmr (inode_state& state, const wordvec& words){$/;"	f
+function	commands.h	/^typedef void (*function) (inode_state& state, const wordvec& words);$/;"	t
+get	util.cpp	/^int exit_status::get() {$/;"	f	class:exit_status
+get_inode_nr	inode.cpp	/^int inode::get_inode_nr() const {$/;"	f	class:inode
+getdir	inode.h	/^      const directory& getdir() { return *contents.dirents; } ;$/;"	f	class:inode
+getfile	inode.cpp	/^const inode& inode::getfile (const string& filename) {$/;"	f	class:inode
+getflag	debug.cpp	/^bool debugflags::getflag (char flag) {$/;"	f	class:debugflags
+icwd	inode.h	/^      inode* icwd(void){ return cwd; };$/;"	f	class:inode_state
+icwd	inode.h	/^      void icwd(inode* cwd){ this->cwd = cwd; };$/;"	f	class:inode_state
+inode	inode.cpp	/^inode::inode (const inode& that) {$/;"	f	class:inode
+inode	inode.cpp	/^inode::inode(inode_t init_type):$/;"	f	class:inode
+inode	inode.h	/^class inode {$/;"	c
+inode_nr	inode.h	/^      int inode_nr;$/;"	m	class:inode
+inode_state	inode.cpp	/^inode_state::inode_state() {$/;"	f	class:inode_state
+inode_state	inode.h	/^class inode_state {$/;"	c
+inode_t	inode.h	/^enum inode_t {DIR_INODE, FILE_INODE};$/;"	g
+inodestr	inode.h	/^      const string& inodestr(int inr){ return istr[inr]; };$/;"	f	class:inode_state
+inodestr	inode.h	/^      void inodestr(int inr, string name){ istr[inr] = name; };$/;"	f	class:inode_state
+iroot	inode.h	/^      inode* iroot(void){ return root; };$/;"	f	class:inode_state
+istr	inode.h	/^      vector <string> istr; \/\/map of inode# -> names$/;"	m	class:inode_state
+ls_print	commands.cpp	/^void ls_print(int inode_nr, int size, const string& name){$/;"	f
+main	main.cpp	/^int main (int argc, char** argv) {$/;"	f
+map	commands.h	/^      commandmap map;$/;"	m	class:commands
+mkdir	inode.cpp	/^inode& inode::mkdir (const string& dirname) {$/;"	f	class:inode
+mkfile	inode.cpp	/^inode& inode::mkfile (const string& filename) {$/;"	f	class:inode
+myprompt	inode.h	/^      string myprompt() const { return prompt; };$/;"	f	class:inode_state
+myprompt	inode.h	/^      void myprompt(const string& prompt_) { prompt = prompt_; } $/;"	f	class:inode_state
+next_inode_nr	inode.h	/^      static int next_inode_nr;$/;"	m	class:inode
+operator <<	inode.cpp	/^ostream& operator<< (ostream& out, const inode_state& state) {$/;"	f
+operator =	inode.cpp	/^inode& inode::operator= (const inode& that) {$/;"	f	class:inode
+parent	inode.cpp	/^inode* inode::parent(){$/;"	f	class:inode
+readfile	inode.cpp	/^const wordvec& inode::readfile() const {$/;"	f	class:inode
+remove	inode.cpp	/^void inode::remove (const string& filename) {$/;"	f	class:inode
+scan_options	main.cpp	/^void scan_options (int argc, char** argv) {$/;"	f
+set	util.cpp	/^void exit_status::set (int new_status) {$/;"	f	class:exit_status
+setexecname	util.cpp	/^void setexecname (const string& name) {$/;"	f
+setflags	debug.cpp	/^void debugflags::setflags (const string& initflags) {$/;"	f	class:debugflags
+size	inode.cpp	/^int inode::size() const {$/;"	f	class:inode
+split	util.cpp	/^wordvec split (const string& line, const string& delimiters) {$/;"	f
+status	util.cpp	/^int exit_status::status = EXIT_SUCCESS;$/;"	m	class:exit_status	file:
+status	util.h	/^      static int status;$/;"	m	class:exit_status
+type	inode.h	/^      inode_t type;$/;"	m	class:inode
+want_echo	util.cpp	/^bool want_echo() {$/;"	f
+where	debug.cpp	/^void debugflags::where (char flag, const char* file, int line,$/;"	f	class:debugflags
+wordvec	util.h	/^typedef vector<string> wordvec;$/;"	t
+writefile	inode.cpp	/^void inode::writefile (const wordvec& words) {$/;"	f	class:inode
+ysh_exit_exn	commands.h	/^class ysh_exit_exn: public exception {};$/;"	c
+yshell_exn	util.cpp	/^yshell_exn::yshell_exn (const string& what): runtime_error (what) {$/;"	f	class:yshell_exn
+yshell_exn	util.h	/^class yshell_exn: public runtime_error {$/;"	c
+~inode	inode.cpp	/^inode::~inode(){$/;"	f	class:inode
